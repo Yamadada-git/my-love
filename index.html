@@ -9,84 +9,61 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #fafafa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
+            padding-bottom: 60px;
         }
         header {
-            background-color: #ffffff;
-            width: 100%;
-            max-width: 600px;
-            padding: 15px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            border-bottom: 1px solid #dbdbdb;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background-color: #ffffff; width: 100%; max-width: 600px;
+            padding: 15px; text-align: center; font-size: 18px; font-weight: bold;
+            border-bottom: 1px solid #dbdbdb; position: sticky; top: 0; z-index: 100;
         }
-        .instagram-container {
-            width: 100%;
-            max-width: 600px;
-            margin-top: 10px;
-        }
-        .post {
-            background-color: #ffffff;
-            border: 1px solid #dbdbdb;
-            margin-bottom: 24px;
-            border-radius: 3px;
-        }
-        .post-header {
-            display: flex;
-            align-items: center;
-            padding: 14px;
-        }
-        .avatar {
-            width: 32px;
-            height: 32px;
-            background-color: #bbb;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .username {
-            font-weight: 600;
-            font-size: 14px;
-        }
+        .instagram-container { width: 100%; max-width: 600px; margin-top: 10px; }
+        .post { background-color: #ffffff; border: 1px solid #dbdbdb; margin-bottom: 24px; border-radius: 3px; position: relative; }
+        .post-header { display: flex; align-items: center; padding: 14px; }
+        .avatar { width: 32px; height: 32px; background-color: #bbb; border-radius: 50%; margin-right: 10px; }
+        .username { font-weight: 600; font-size: 14px; }
+
+        /* 多圖輪播樣式 */
+        .image-container { position: relative; width: 100%; overflow: hidden; }
+        .slide-wrapper { display: flex; transition: transform 0.3s ease-in-out; }
+        /* 修改這裡：確保多張圖片切換時絕對不扭曲變形 */
         .post-img {
             width: 100%;
+            height: 450px;          /* 固定高度（可依喜好調整，例如 400px 或 500px） */
+            flex-shrink: 0;
             display: block;
+            object-fit: contain;    /* 關鍵：保持圖片原本比例，不扭曲，多餘空間留白或黑 */
+            background-color: #ffffff; /* 如果照片寬高不夠，背景用white墊底（像手機看影片那樣） */
         }
-        .post-body {
-            padding: 12px 14px;
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.7); border: none; border-radius: 50%;
+            width: 30px; height: 30px; cursor: pointer; font-weight: bold; font-size: 16px;
         }
-        .actions {
-            font-size: 24px;
-            margin-bottom: 8px;
-            cursor: pointer;
-        }
-        .likes {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-        .caption {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-        .date {
-            color: #8e8e8e;
-            font-size: 10px;
-            text-transform: uppercase;
-            margin-top: 5px;
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+
+        .post-body { padding: 12px 14px; }
+        .actions { font-size: 24px; margin-bottom: 8px; display: flex; gap: 15px; }
+        .music-icon { cursor: pointer; font-size: 20px; }
+        .likes { font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+        .caption { font-size: 14px; line-height: 1.5; }
+        .more-btn { color: #8e8e8e; cursor: pointer; margin-left: 5px; font-weight: bold; }
+        .full-text { display: none; }
+        .date { color: #8e8e8e; font-size: 10px; margin-top: 5px; }
+
+        /* 隱藏的 Bilibili 播放器 */
+        #bilibili-player {
+            width: 0px; height: 0px; border: none; position: absolute; visibility: hidden;
         }
     </style>
 </head>
 <body>
 
     <header>✨ 給我最愛的偶像 ✨</header>
+
+    <iframe id="bilibili-player" src="" allow="autoplay"></iframe>
 
     <div class="instagram-container">
         
@@ -95,12 +72,28 @@
             <div class="avatar"></div>
             <div class="username">idol_fan_page</div>
         </div>
-        <img class="post-img" src="images/idol1.jpg" alt="Idol Photo">
+
+        <div class="image-container" data-index="0">
+            <div class="slide-wrapper">
+                <img class="post-img" src="images/idol1.jpg"><img class="post-img" src="images/idol3.jpg">
+            </div>
+            
+        <button class="nav-btn prev-btn" onclick="moveSlide(this, -1)">❮</button>
+        <button class="nav-btn next-btn" onclick="moveSlide(this, 1)">❯</button>
+        
+        </div>
+
         <div class="post-body">
-            <div class="actions" onclick="toggleLike(this)">❤️</div>
+            <div class="actions">
+                <span onclick="toggleLike(this)" style="cursor:pointer;">❤️</span>
+                <span class="music-icon" onclick="playMusic('https://player.bilibili.com/player.html?bvid=BV1c47Q6tE6E&page=1')">🎵</span>
+            </div>
             <div class="likes">9,527 次讚</div>
             <div class="caption">
-                <span class="username">idol_fan_page</span> 🌟 今天的舞台太完美了！閃閃發光的你就是我的動力。#應援 #舞台直拍
+                <span class="username">idol_fan_page</span>
+                <span class="short-text">🌟 今天的舞台太完美了！閃閃發光的你...</span>
+                <span class="more-btn" onclick="expandText(this, 'https://player.bilibili.com/player.html?bvid=BV1c47Q6tE6E&page=1')">...更多</span>
+                <span class="full-text">今天的舞台真的太搞人心態了！不管是舞蹈動作還是眼神管理都無懈可擊。這是我今年看過最棒的 Live，希望你能一直走花路！#應援 #舞台直拍</span>
             </div>
             <div class="date">1天前</div>
         </div>
@@ -111,41 +104,82 @@
             <div class="avatar"></div>
             <div class="username">idol_fan_page</div>
         </div>
-        <img class="post-img" src="images/idol2.jpg" alt="Idol Photo">
+
+        <div class="image-container" data-index="0">
+            <div class="slide-wrapper">
+                <img class="post-img" src="images/idol2.jpg">
+            </div>
+            
+        </div>
+
         <div class="post-body">
-            <div class="actions" onclick="toggleLike(this)">❤️</div>
+            <div class="actions">
+                <span onclick="toggleLike(this)" style="cursor:pointer;">❤️</span>
+                
+            </div>
             <div class="likes">13,140 次讚</div>
             <div class="caption">
-                <span class="username">idol_fan_page</span> 📸 幕後花絮也這麼好看是合理的嗎？祝新專輯大賣！❤️
+                <span class="username">idol_fan_page</span>
+                <span class="short-text">📸 幕後花絮也這麼好看是合理的嗎？</span>
+                <span class="more-btn" onclick="expandText(this, '')">...更多</span>
+                <span class="full-text">看到工作人員發的花絮照，素顏也太能打了。聽說新專輯錄製到很晚，真的辛苦了，一定要好好休息！❤️</span>
             </div>
             <div class="date">3天前</div>
-        </div>
-    </div>
-    
-    <div class="post">
-        <div class="post-header">
-            <div class="avatar"></div>
-            <div class="username">idol_fan_page</div>
-        </div>
-        <img class="post-img" src="images/idol3.jpg" alt="Idol Photo">
-        <div class="post-body">
-            <div class="actions" onclick="toggleLike(this)">❤️</div>
-            <div class="likes">52,013 次讚</div>
-            <div class="caption">
-                <span class="username">idol_fan_page</span> 🎂 祝我最愛的偶像生日快樂！願你天天開心，健康平安。#HappyIdolDay
-            </div>
-            <div class="date">2026年3月20日</div>
         </div>
     </div>
     
     </div>
 
     <script>
+        // 紀錄目前正在播放的音樂網址，用來判斷暫停
+        let currentMusicUrl = "";
+
+        function moveSlide(btn, direction) {
+            const container = btn.parentElement;
+            const wrapper = container.querySelector('.slide-wrapper');
+            const imgs = wrapper.querySelectorAll('.post-img');
+            let index = parseInt(container.getAttribute('data-index') || '0');
+
+            index += direction;
+            if (index < 0) index = imgs.length - 1;
+            if (index >= imgs.length) index = 0;
+
+            container.setAttribute('data-index', index);
+            wrapper.style.transform = `translateX(${-index * 100}%)`;
+        }
+
+        // 修改：點擊「...更多」時，不僅展開文字，還會自動播放音樂
+        function expandText(btn, musicUrl) {
+            const parent = btn.parentElement;
+            parent.querySelector('.full-text').style.display = 'inline';
+            parent.querySelector('.short-text').style.display = 'none';
+            btn.style.display = 'none';
+
+            // 自動觸發播放音樂
+            if (musicUrl) {
+                playMusic(musicUrl);
+            }
+        }
+
         function toggleLike(element) {
-            if (element.innerText === "❤️") {
-                element.innerText = "🤍";
+            element.innerText = element.innerText === "❤️" ? "🤍" : "❤️";
+        }
+
+        // 核心音樂播放與暫停邏輯
+        function playMusic(videoUrl) {
+            if(!videoUrl) return;
+            const player = document.getElementById('bilibili-player');
+
+            // 如果點擊的是「同一個音樂」，代表想要「暫停」
+            if (currentMusicUrl === videoUrl) {
+                player.src = ""; // 清空 src 就會立即停止播放
+                currentMusicUrl = ""; // 重設紀錄
+                console.log("🎵 音樂已暫停");
             } else {
-                element.innerText = "❤️";
+                // 如果是新音樂，或是原本沒在播，就開始播放
+                player.src = videoUrl + "&autoplay=1";
+                currentMusicUrl = videoUrl; // 紀錄當前播放的網址
+                console.log("🎵 開始播放新音樂");
             }
         }
     </script>
