@@ -1,5 +1,6 @@
 [
     {
+        "category": "追星",
         "images": ["images/idol1.jpg", "images/idol3.jpg"],
         "likes": "9,527",
         "short_caption": "🌟 今天的舞台太完美了！閃閃發光的你...",
@@ -8,11 +9,22 @@
         "music_url": "https://player.bilibili.com/player.html?bvid=BV1c47Q6tE6E&page=1"
     },
     {
+        "category": "追星",
         "images": ["images/idol2.jpg"],
         "likes": "13,140",
         "short_caption": "📸 幕後花絮也這麼好看是合理的嗎？",
         "full_text": "看到工作人員發的花絮照，素顏也太能打了。聽說新專輯錄製到很晚，真的辛苦了，一定要好好休息！❤️",
         "date": "3天前",
         "music_url": ""
+    },
+    {
+        "category": "讀書",
+        "images": [""],
+        "likes": "120",
+        "short_caption": "📖 最近讀完這本書，感觸很深。",
+        "full_text": "這裡寫你的讀書心得紀錄...",
+        "date": "3天前",
+        "music_url": ""
     }
+
 ]
