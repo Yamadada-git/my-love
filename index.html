@@ -25,43 +25,40 @@
         .main-layout { display: flex; width: 100%; max-width: 850px; margin-top: 20px; gap: 20px; box-sizing: border-box; padding: 0 10px; }
         .instagram-container { flex: 1; max-width: 600px; }
 
-        .sidebar { width: 200px; position: sticky; top: 70px; height: fit-content; display: flex; flex-direction: column; gap: 20px; }
-        .sidebar-box { background: #ffffff; border: 1px solid #dbdbdb; border-radius: 4px; padding: 15px; box-sizing: border-box; }
-        .sidebar-title { font-size: 14px; font-weight: bold; color: #8e8e8e; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sidebar { width: 200px; position: sticky; top: 70px; height: fit-content; background: #ffffff; border: 1px solid #dbdbdb; border-radius: 3px; padding: 15px; box-sizing: border-box; }
+        .sidebar-title { font-size: 14px; font-weight: bold; color: #8e8e8e; margin-bottom: 12px; text-transform: uppercase; }
         .category-btn { display: block; width: 100%; text-align: left; background: none; border: none; padding: 8px 10px; margin-bottom: 5px; font-size: 14px; cursor: pointer; border-radius: 4px; color: #262626; }
         .category-btn.active { background-color: #0095f6; color: white; font-weight: bold; }
 
-        /* 💡 新增：精緻個人簡介欄樣式 */
-        .profile-box { text-align: left; }
-        .profile-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-        .profile-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); padding: 2px; display: flex; align-items: center; justify-content: center; }
-        .profile-avatar inner { width: 100%; height: 100%; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .profile-name { font-weight: bold; font-size: 15px; color: #262626; }
-        .profile-bio { font-size: 13px; color: #4a4a4a; line-height: 1.5; margin-bottom: 12px; white-space: pre-line; }
-        .profile-divider { border-top: 1px solid #efefef; margin: 10px 0; }
-        .contact-item { font-size: 12px; color: #262626; display: flex; align-items: center; gap: 6px; text-decoration: none; word-break: break-all; margin-top: 6px; }
-        .contact-item:hover { color: #0095f6; }
-
         .post { background-color: #ffffff; border: 1px solid #dbdbdb; margin-bottom: 24px; border-radius: 4px; overflow: hidden; position: relative; }
+
         .image-container { position: relative; width: 100%; overflow: hidden; }
         .slide-wrapper { display: flex; transition: transform 0.3s ease-in-out; }
-        .post-img, .post-video { width: 100%; height: 450px; flex-shrink: 0; display: block; object-fit: contain; background-color: #ffffff; }
-
-        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold; font-size: 16px; z-index: 10; }
+        .post-img { width: 100%; height: 450px; flex-shrink: 0; display: block; object-fit: contain; background-color: #ffffff; }
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold; font-size: 16px; }
         .prev-btn { left: 10px; }
         .next-btn { right: 10px; }
 
-        .badge-counter {
-            position: absolute; top: 14px; right: 14px; background: rgba(18, 18, 18, 0.75); color: #ffffff; font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 12px; z-index: 10; letter-spacing: 0.5px;
+        .post-body { padding: 20px 18px; } 
+
+        .post-title { 
+            font-size: 18px; 
+            font-weight: 700; 
+            color: #262626; 
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .post-body { padding: 20px 18px; } 
-        .post-title { font-size: 18px; font-weight: 700; color: #262626; margin-bottom: 10px; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
         .post-badge { background-color: #f2f2f2; color: #666; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 500; }
+
         .caption { font-size: 14px; line-height: 1.6; color: #333; }
         .more-btn { color: #0095f6; cursor: pointer; margin-left: 5px; font-weight: bold; }
         .full-text { display: none; white-space: pre-line; }
         .date { color: #8e8e8e; font-size: 11px; margin-top: 12px; display: block; }
+
         .bilibili-player { display: none; width: 0; height: 0; border: none; }
 
         @media (max-width: 768px) {
@@ -92,7 +89,6 @@
     <div class="post" data-category="Yamada">
         
         <div class="image-container" data-index="0">
-            
             <div class="slide-wrapper">
                 <img class="post-img" src="images/idol1.jpg">
             </div>
@@ -116,9 +112,8 @@
     <div class="post" data-category="Life">
         <iframe class="bilibili-player" data-bv="BV1wnKwzuEg5" allow="autoplay; encrypted-media" cookies="true"></iframe>
         <div class="image-container" data-index="0">
-            <div class="badge-counter">1/4</div>
             <div class="slide-wrapper">
-                <img class="post-img" src="images/20250420.1.png"><img class="post-img" src="images/20250420.2.jpeg"><img class="post-img" src="images/20250420.3.jpeg"><img class="post-img" src="images/20250420.4.jpg">
+                <img class="post-img" src="images/20250420.1.PNG"><img class="post-img" src="images/20250420.2.jpeg"><img class="post-img" src="images/20250420.3.jpeg"><img class="post-img" src="images/20250420.4.jpg">
             </div>
             
         <button class="nav-btn prev-btn" onclick="moveSlide(this, -1)">❮</button>
@@ -143,7 +138,6 @@
     <div class="post" data-category="Life">
         <iframe class="bilibili-player" data-bv="BV1DY6qBdEkm" allow="autoplay; encrypted-media" cookies="true"></iframe>
         <div class="image-container" data-index="0">
-            <div class="badge-counter">1/3</div>
             <div class="slide-wrapper">
                 <img class="post-img" src="images/20250329.1.jpg"><img class="post-img" src="images/20250329.2.jpeg"><img class="post-img" src="images/20250329.3.jpg">
             </div>
@@ -170,7 +164,6 @@
     <div class="post" data-category="Life">
         <iframe class="bilibili-player" data-bv="BV1P1421q7Qj" allow="autoplay; encrypted-media" cookies="true"></iframe>
         <div class="image-container" data-index="0">
-            <div class="badge-counter">1/3</div>
             <div class="slide-wrapper">
                 <img class="post-img" src="images/20250327.1.jpeg"><img class="post-img" src="images/20250327.2.jpeg"><img class="post-img" src="images/20250327.3.jpg">
             </div>
@@ -197,31 +190,11 @@
             </div>
 
             <div class="sidebar">
-                <div class="sidebar-box">
-                    <div class="sidebar-title">Categories</div>
-                    <button class="category-btn active" onclick="filterCategory(this, 'all')">👀 Show all</button>
-                    <button class="category-btn" onclick="filterCategory(this, 'Life')">🏷️ Life</button>
+                <div class="sidebar-title">Categories</div>
+                <button class="category-btn active" onclick="filterCategory(this, 'all')">👀 Show all</button>
+                <button class="category-btn" onclick="filterCategory(this, 'Life')">🏷️ Life</button>
 <button class="category-btn" onclick="filterCategory(this, 'Yamada')">🏷️ Yamada</button>
 
-                </div>
-
-                <div class="sidebar-box profile-box">
-                    <div class="sidebar-title">👤 About Me</div>
-                    <div class="profile-header">
-                        <div class="profile-avatar"><inner>🦖</inner></div>
-                        <div class="profile-name">Emma</div>
-                    </div>
-                    <div class="profile-bio">記錄生活的點點滴滴。
-                    To live, to feel, to improve.
-                    歡迎隨時與我連繫！✨</div>
-
-                    <div class="profile-divider"></div>
-
-                    <div class="sidebar-title" style="font-size: 11px; margin-bottom: 6px;">📩 Contact</div>
-                    <a href="mailto:your_email@example.com" class="contact-item">
-                        <span>📧</span> celeste_588@outlook.com
-                    </a>
-                </div>
             </div>
         </div>
     </div>
@@ -240,7 +213,6 @@
             if (userInputHash === ENCRYPTED_HASH) {
                 overlay.style.display = 'none';
                 mainContent.style.display = 'flex';
-                initScrollObserver(); 
             } else {
                 errorMsg.style.display = 'block';
                 document.getElementById('pass-input').value = "";
@@ -263,7 +235,6 @@
                     post.style.display = 'none';
                     const iframe = post.querySelector('.bilibili-player');
                     if (iframe) iframe.src = "";
-                    post.querySelectorAll('video').forEach(v => v.pause());
                 }
             });
         }
@@ -271,72 +242,42 @@
         function moveSlide(btn, direction) {
             const container = btn.parentElement;
             const wrapper = container.querySelector('.slide-wrapper');
-            const mediaItems = wrapper.children;
+            const imgs = wrapper.querySelectorAll('.post-img');
             let index = parseInt(container.getAttribute('data-index') || '0');
-
-            if(mediaItems[index].tagName === 'VIDEO') {
-                mediaItems[index].pause();
-            }
-
             index += direction;
-            if (index < 0) index = mediaItems.length - 1;
-            if (index >= mediaItems.length) index = 0;
-
+            if (index < 0) index = imgs.length - 1;
+            if (index >= imgs.length) index = 0;
             container.setAttribute('data-index', index);
-            wrapper.style.transform = "translateX(" + (-index * 100) + "%)";
-
-            const counter = container.querySelector('.badge-counter');
-            if (counter) {
-                counter.innerText = (index + 1) + "/" + mediaItems.length;
-            }
+            wrapper.style.transform = `translateX(${-index * 100}%)`;
         }
 
         function expandText(btn) {
             const parent = btn.parentElement;
             const fullTextSpan = parent.querySelector('.full-text');
-
+            
+            // 加上網頁換行標籤 <br> 銜接長文
             fullTextSpan.innerHTML = "<br>" + fullTextSpan.innerHTML;
             fullTextSpan.style.display = 'inline';
             btn.style.display = 'none';
-
+            
+            // 🎵 Bilibili 播放邏輯
             const postContainer = parent.closest('.post');
             const iframe = postContainer.querySelector('.bilibili-player');
-
+            
             if (iframe) {
+                // 1. 如果之前有其他音樂在播，先切斷
                 if (currentPlayingIframe && currentPlayingIframe !== iframe) {
                     currentPlayingIframe.src = "";
                 }
-
+                
+                // 2. 載入 B 站外連（🛠️ 修改這裡：用 + 號拼接字串，避開大括號衝突）
                 const bvId = iframe.getAttribute('data-bv');
                 iframe.src = "https://player.bilibili.com/player.html?bvid=" + bvId + "&autoplay=1&muted=0&page=1&high_quality=1";
-
+                
                 currentPlayingIframe = iframe;
             }
         }
-
-        function initScrollObserver() {
-            const observerOptions = {
-                root: null, 
-                threshold: 0.1 
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) {
-                        const iframe = entry.target.querySelector('.bilibili-player');
-                        if (iframe && iframe.src !== "" && currentPlayingIframe === iframe) {
-                            iframe.src = "";
-                            currentPlayingIframe = null;
-                        }
-                        entry.target.querySelectorAll('video').forEach(v => v.pause());
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.post').forEach(post => {
-                observer.observe(post);
-            });
-        }
+          
     </script>
 </body>
 </html>
