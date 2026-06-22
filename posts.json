@@ -1,30 +1,36 @@
-[
-    {
-        "category": "追星",
-        "images": ["images/idol1.jpg", "images/idol3.jpg"],
-        "likes": "9,527",
-        "short_caption": "🌟 今天的舞台太完美了！閃閃發光的你...",
-        "full_text": "今天的舞台真的太搞人心態了！不管是舞蹈動作還是眼神管理都無懈可擊。這是我今年看過最棒的 Live，希望你能一直走花路！#應援 #舞台直拍",
-        "date": "1天前",
-        "music_url": "https://player.bilibili.com/player.html?bvid=BV1c47Q6tE6E&page=1"
-    },
-    {
-        "category": "追星",
-        "images": ["images/idol2.jpg"],
-        "likes": "13,140",
-        "short_caption": "📸 幕後花絮也這麼好看是合理的嗎？",
-        "full_text": "看到工作人員發的花絮照，素顏也太能打了。聽說新專輯錄製到很晚，真的辛苦了，一定要好好休息！❤️",
-        "date": "3天前",
-        "music_url": ""
-    },
-    {
-        "category": "讀書",
-        "images": [""],
-        "likes": "120",
-        "short_caption": "📖 最近讀完這本書，感觸很深。",
-        "full_text": "這裡寫你的讀書心得紀錄...",
-        "date": "3天前",
-        "music_url": ""
-    }
-
-]
+{
+    "site_password": "0509",
+    "posts": [
+        {
+            "category": "Yamada",
+            "images": ["images/idol1.jpg"],
+            "short_caption": "🌟 今天的舞台太完美了！",
+            "full_text": "舞台應援長文...",
+            "date": "1天前"
+        },
+        {
+            "category": "Life",
+            "images": ["images/20250420.1.png","images/20250420.2.jpeg","images/20250420.3.jpeg","images/20250420.4.jpg"],
+            "short_caption": "實際上是失敗的肉桂捲",
+            "full_text": "當時為什麼post寫成功我也忘了,可能當時對於第一次烤麵包想留下鼓勵吧!",
+            "bilibili_bv": "BV1wnKwzuEg5",
+            "date": "2025/4/20 Monday"
+        },
+        {
+            "category": "Life",
+            "images": ["images/20250329.1.jpg","images/20250329.2.jpeg","images/20250329.3.jpg"],
+            "short_caption": "第一次閱讀Slavoj Žižek的作品",
+            "full_text": "最終並沒有讀完這本書",
+            "bilibili_bv": "BV1DY6qBdEkm",
+            "date": "2025/3/29 Saturday"
+        },
+        {
+            "category": "Life",
+            "images": ["images/20250327.1.jpeg","images/20250327.2.jpeg","images/20250327.3.jpg"],
+            "short_caption": "This is my very first IG post.",
+            "full_text": "現在回頭看,當時只是純粹想分享喜歡的一首歌.",
+            "bilibili_bv": "BV1P1421q7Qj",
+            "date": "2025/3/27 Friday"
+        }
+    ]
+}

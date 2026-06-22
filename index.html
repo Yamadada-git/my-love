@@ -4,147 +4,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ My Multi-Life Gallery ✨</title>
+    <title>✨ Living ✨</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #fafafa;
-            margin: 0; padding: 0;
-            display: flex; flex-direction: column; align-items: center;
-            padding-bottom: 60px;
+            background-color: #fafafa; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; padding-bottom: 60px;
         }
-        header {
-            background-color: #ffffff; width: 100%; max-width: 850px;
-            padding: 15px; text-align: center; font-size: 18px; font-weight: bold;
-            border-bottom: 1px solid #dbdbdb; position: sticky; top: 0; z-index: 100;
+        #password-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
+        .password-box { text-align: center; padding: 30px; border: 1px solid #dbdbdb; border-radius: 8px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 320px; width: 80%; }
+        .password-box input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #dbdbdb; border-radius: 4px; box-sizing: border-box; text-align: center; font-size: 16px; }
+        .password-box button { background-color: #0095f6; color: white; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; font-size: 14px; }
+        .password-box button:hover { background-color: #0074cc; }
+        #error-msg { color: #ed4956; font-size: 12px; margin-top: 10px; display: none; }
 
-        /* 主要雙欄版面排版 */
-        .main-layout {
-            display: flex;
-            width: 100%;
-            max-width: 850px;
-            margin-top: 20px;
-            gap: 20px;
-            box-sizing: border-box;
-            padding: 0 10px;
-        }
+        #main-content { display: none; width: 100%; flex-direction: column; align-items: center; }
+        header { background-color: #ffffff; width: 100%; max-width: 850px; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; border-bottom: 1px solid #dbdbdb; position: sticky; top: 0; z-index: 100; }
+        .main-layout { display: flex; width: 100%; max-width: 850px; margin-top: 20px; gap: 20px; box-sizing: border-box; padding: 0 10px; }
+        .instagram-container { flex: 1; max-width: 600px; }
 
-        /* 左側貼文牆 */
-        .instagram-container {
-            flex: 1;
-            max-width: 600px;
-        }
+        .sidebar { width: 200px; position: sticky; top: 70px; height: fit-content; display: flex; flex-direction: column; gap: 20px; }
+        .sidebar-box { background: #ffffff; border: 1px solid #dbdbdb; border-radius: 4px; padding: 15px; box-sizing: border-box; }
+        .sidebar-title { font-size: 14px; font-weight: bold; color: #8e8e8e; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .category-btn { display: block; width: 100%; text-align: left; background: none; border: none; padding: 8px 10px; margin-bottom: 5px; font-size: 14px; cursor: pointer; border-radius: 4px; color: #262626; }
+        .category-btn.active { background-color: #0095f6; color: white; font-weight: bold; }
 
-        /* 右側分類欄 */
-        .sidebar {
-            width: 200px;
-            position: sticky;
-            top: 70px;
-            height: fit-content;
-            background: #ffffff;
-            border: 1px solid #dbdbdb;
-            border-radius: 3px;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-        .sidebar-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #8e8e8e;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-        .category-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-            background: none;
-            border: none;
-            padding: 8px 10px;
-            margin-bottom: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 4px;
-            color: #262626;
-        }
-        .category-btn:hover {
-            background-color: #rgba(0,0,0,0.05);
-            font-weight: bold;
-        }
-        .category-btn.active {
-            background-color: #0095f6;
-            color: white;
-            font-weight: bold;
-        }
+        /* 💡 新增：精緻個人簡介欄樣式 */
+        .profile-box { text-align: left; }
+        .profile-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .profile-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); padding: 2px; display: flex; align-items: center; justify-content: center; }
+        .profile-avatar inner { width: 100%; height: 100%; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .profile-name { font-weight: bold; font-size: 15px; color: #262626; }
+        .profile-bio { font-size: 13px; color: #4a4a4a; line-height: 1.5; margin-bottom: 12px; white-space: pre-line; }
+        .profile-divider { border-top: 1px solid #efefef; margin: 10px 0; }
+        .contact-item { font-size: 12px; color: #262626; display: flex; align-items: center; gap: 6px; text-decoration: none; word-break: break-all; margin-top: 6px; }
+        .contact-item:hover { color: #0095f6; }
 
-        /* 貼文樣式 */
-        .post { background-color: #ffffff; border: 1px solid #dbdbdb; margin-bottom: 24px; border-radius: 3px; position: relative; }
-        .post-header { display: flex; align-items: center; padding: 14px; justify-content: space-between; }
-        .header-left { display: flex; align-items: center; }
-        .avatar { width: 32px; height: 32px; background-color: #bbb; border-radius: 50%; margin-right: 10px; }
-        .username { font-weight: 600; font-size: 14px; }
-        .post-badge {
-            background-color: #f2f2f2; color: #666; font-size: 12px; 
-            padding: 3px 8px; border-radius: 12px; font-weight: 500;
-        }
-
-        /* 多圖輪播樣式 */
+        .post { background-color: #ffffff; border: 1px solid #dbdbdb; margin-bottom: 24px; border-radius: 4px; overflow: hidden; position: relative; }
         .image-container { position: relative; width: 100%; overflow: hidden; }
         .slide-wrapper { display: flex; transition: transform 0.3s ease-in-out; }
-        .post-img {
-            width: 100%; height: 450px; flex-shrink: 0; display: block; object-fit: contain; background-color: #000000;
-        }
-        .nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.7); border: none; border-radius: 50%;
-            width: 30px; height: 30px; cursor: pointer; font-weight: bold; font-size: 16px;
-        }
+        .post-img, .post-video { width: 100%; height: 450px; flex-shrink: 0; display: block; object-fit: contain; background-color: #ffffff; }
+
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold; font-size: 16px; z-index: 10; }
         .prev-btn { left: 10px; }
         .next-btn { right: 10px; }
 
-        .post-body { padding: 12px 14px; }
-        .actions { font-size: 24px; margin-bottom: 8px; display: flex; gap: 15px; }
-        .music-icon { cursor: pointer; font-size: 20px; }
-        .likes { font-weight: 600; font-size: 14px; margin-bottom: 8px; }
-        .caption { font-size: 14px; line-height: 1.5; }
-        .more-btn { color: #8e8e8e; cursor: pointer; margin-left: 5px; font-weight: bold; }
-        .full-text { display: none; }
-        .date { color: #8e8e8e; font-size: 10px; margin-top: 5px; }
+        .badge-counter {
+            position: absolute; top: 14px; right: 14px; background: rgba(18, 18, 18, 0.75); color: #ffffff; font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 12px; z-index: 10; letter-spacing: 0.5px;
+        }
 
-        /* 隱藏的播放器 */
-        #bilibili-player { width: 0px; height: 0px; border: none; position: absolute; visibility: hidden; }
+        .post-body { padding: 20px 18px; } 
+        .post-title { font-size: 18px; font-weight: 700; color: #262626; margin-bottom: 10px; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
+        .post-badge { background-color: #f2f2f2; color: #666; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 500; }
+        .caption { font-size: 14px; line-height: 1.6; color: #333; }
+        .more-btn { color: #0095f6; cursor: pointer; margin-left: 5px; font-weight: bold; }
+        .full-text { display: none; white-space: pre-line; }
+        .date { color: #8e8e8e; font-size: 11px; margin-top: 12px; display: block; }
+        .bilibili-player { display: none; width: 0; height: 0; border: none; }
 
-        /* RWD 手機板自適應 */
         @media (max-width: 768px) {
             .main-layout { flex-direction: column; }
             .sidebar { width: 100%; position: relative; top: 0; margin-bottom: 20px; }
-            .category-btn { display: inline-block; width: auto; margin-right: 5px; }
+            .category-btn { inline-block; width: auto; margin-right: 5px; }
         }
     </style>
 </head>
 <body>
 
-    <header>✨ 我的生活與應援小站 ✨</header>
+    <div id="password-overlay">
+        <div class="password-box">
+            <h2 style="margin: 0; font-size: 18px; color: #262626;">🔒 I've been waiting for you!</h2>
+            <p style="font-size: 13px; color: #8e8e8e; margin-top: 5px;">Please enter leo's birthday, mmdd</p>
+            <input type="password" id="pass-input" placeholder="Enter the password..." onkeypress="handleKeyPress(event)">
+            <button onclick="checkPassword()">Unlock the page</button>
+            <div id="error-msg">❌ Try again！</div>
+        </div>
+    </div>
 
-    <iframe id="bilibili-player" src="" allow="autoplay"></iframe>
+    <div id="main-content">
+        <header>✨ To live, to feel, to improve.  ✨</header>
 
-    <div class="main-layout">
-
-        <div class="instagram-container">
+        <div class="main-layout">
+            <div class="instagram-container">
+                
+    <div class="post" data-category="Yamada">
+        
+        <div class="image-container" data-index="0">
             
-    <div class="post" data-category="追星">
-        <div class="post-header">
-            <div class="header-left">
-                <div class="avatar"></div>
-                <div class="username">my_space</div>
+            <div class="slide-wrapper">
+                <img class="post-img" src="images/idol1.jpg">
             </div>
-            <div class="post-badge">追星</div>
+            
         </div>
 
+        <div class="post-body">
+            <div class="post-title">
+                emma
+                <span class="post-badge">Yamada</span>
+            </div>
+            <div class="caption">
+                <span class="short-text">🌟 今天的舞台太完美了！</span>
+                <span class="more-btn" onclick="expandText(this)">...更多</span>
+                <span class="full-text">舞台應援長文...</span>
+            </div>
+            <div class="date">1天前</div>
+        </div>
+    </div>
+    
+    <div class="post" data-category="Life">
+        <iframe class="bilibili-player" data-bv="BV1wnKwzuEg5" allow="autoplay; encrypted-media" cookies="true"></iframe>
         <div class="image-container" data-index="0">
+            <div class="badge-counter">1/4</div>
             <div class="slide-wrapper">
-                <img class="post-img" src="images/idol1.jpg"><img class="post-img" src="images/idol3.jpg">
+                <img class="post-img" src="images/20250420.1.png"><img class="post-img" src="images/20250420.2.jpeg"><img class="post-img" src="images/20250420.3.jpeg"><img class="post-img" src="images/20250420.4.jpg">
             </div>
             
         <button class="nav-btn prev-btn" onclick="moveSlide(this, -1)">❮</button>
@@ -153,112 +127,143 @@
         </div>
 
         <div class="post-body">
-            <div class="actions">
-                <span onclick="toggleLike(this)" style="cursor:pointer;">❤️</span>
-                <span class="music-icon" onclick="playMusic('https://player.bilibili.com/player.html?bvid=BV1c47Q6tE6E&page=1')">🎵</span>
+            <div class="post-title">
+                emma
+                <span class="post-badge">Life</span>
             </div>
-            <div class="likes">9,527 次讚</div>
             <div class="caption">
-                <span class="username">my_space</span>
-                <span class="short-text">🌟 今天的舞台太完美了！閃閃發光的你...</span>
-                <span class="more-btn" onclick="expandText(this, 'https://player.bilibili.com/player.html?bvid=BV1c47Q6tE6E&page=1')">...更多</span>
-                <span class="full-text">今天的舞台真的太搞人心態了！不管是舞蹈動作還是眼神管理都無懈可擊。這是我今年看過最棒的 Live，希望你能一直走花路！#應援 #舞台直拍</span>
+                <span class="short-text">實際上是失敗的肉桂捲</span>
+                <span class="more-btn" onclick="expandText(this)">...更多</span>
+                <span class="full-text">當時為什麼post寫成功我也忘了,可能當時對於第一次烤麵包想留下鼓勵吧!</span>
             </div>
-            <div class="date">1天前</div>
+            <div class="date">2025/4/20 Monday</div>
         </div>
     </div>
     
-    <div class="post" data-category="追星">
-        <div class="post-header">
-            <div class="header-left">
-                <div class="avatar"></div>
-                <div class="username">my_space</div>
-            </div>
-            <div class="post-badge">追星</div>
-        </div>
-
+    <div class="post" data-category="Life">
+        <iframe class="bilibili-player" data-bv="BV1DY6qBdEkm" allow="autoplay; encrypted-media" cookies="true"></iframe>
         <div class="image-container" data-index="0">
+            <div class="badge-counter">1/3</div>
             <div class="slide-wrapper">
-                <img class="post-img" src="images/idol2.jpg">
+                <img class="post-img" src="images/20250329.1.jpg"><img class="post-img" src="images/20250329.2.jpeg"><img class="post-img" src="images/20250329.3.jpg">
             </div>
             
+        <button class="nav-btn prev-btn" onclick="moveSlide(this, -1)">❮</button>
+        <button class="nav-btn next-btn" onclick="moveSlide(this, 1)">❯</button>
+        
         </div>
 
         <div class="post-body">
-            <div class="actions">
-                <span onclick="toggleLike(this)" style="cursor:pointer;">❤️</span>
-                
+            <div class="post-title">
+                emma
+                <span class="post-badge">Life</span>
             </div>
-            <div class="likes">13,140 次讚</div>
             <div class="caption">
-                <span class="username">my_space</span>
-                <span class="short-text">📸 幕後花絮也這麼好看是合理的嗎？</span>
-                <span class="more-btn" onclick="expandText(this, '')">...更多</span>
-                <span class="full-text">看到工作人員發的花絮照，素顏也太能打了。聽說新專輯錄製到很晚，真的辛苦了，一定要好好休息！❤️</span>
+                <span class="short-text">第一次閱讀Slavoj Žižek的作品</span>
+                <span class="more-btn" onclick="expandText(this)">...更多</span>
+                <span class="full-text">最終並沒有讀完這本書</span>
             </div>
-            <div class="date">3天前</div>
+            <div class="date">2025/3/29 Saturday</div>
         </div>
     </div>
     
-    <div class="post" data-category="讀書">
-        <div class="post-header">
-            <div class="header-left">
-                <div class="avatar"></div>
-                <div class="username">my_space</div>
-            </div>
-            <div class="post-badge">讀書</div>
-        </div>
-
+    <div class="post" data-category="Life">
+        <iframe class="bilibili-player" data-bv="BV1P1421q7Qj" allow="autoplay; encrypted-media" cookies="true"></iframe>
         <div class="image-container" data-index="0">
+            <div class="badge-counter">1/3</div>
             <div class="slide-wrapper">
-                <img class="post-img" src="">
+                <img class="post-img" src="images/20250327.1.jpeg"><img class="post-img" src="images/20250327.2.jpeg"><img class="post-img" src="images/20250327.3.jpg">
             </div>
             
+        <button class="nav-btn prev-btn" onclick="moveSlide(this, -1)">❮</button>
+        <button class="nav-btn next-btn" onclick="moveSlide(this, 1)">❯</button>
+        
         </div>
 
         <div class="post-body">
-            <div class="actions">
-                <span onclick="toggleLike(this)" style="cursor:pointer;">❤️</span>
-                
+            <div class="post-title">
+                emma
+                <span class="post-badge">Life</span>
             </div>
-            <div class="likes">120 次讚</div>
             <div class="caption">
-                <span class="username">my_space</span>
-                <span class="short-text">📖 最近讀完這本書，感觸很深。</span>
-                <span class="more-btn" onclick="expandText(this, '')">...更多</span>
-                <span class="full-text">這裡寫你的讀書心得紀錄...</span>
+                <span class="short-text">This is my very first IG post.</span>
+                <span class="more-btn" onclick="expandText(this)">...更多</span>
+                <span class="full-text">現在回頭看,當時只是純粹想分享喜歡的一首歌.</span>
             </div>
-            <div class="date">3天前</div>
+            <div class="date">2025/3/27 Friday</div>
         </div>
     </div>
     
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-box">
+                    <div class="sidebar-title">Categories</div>
+                    <button class="category-btn active" onclick="filterCategory(this, 'all')">👀 Show all</button>
+                    <button class="category-btn" onclick="filterCategory(this, 'Life')">🏷️ Life</button>
+<button class="category-btn" onclick="filterCategory(this, 'Yamada')">🏷️ Yamada</button>
+
+                </div>
+
+                <div class="sidebar-box profile-box">
+                    <div class="sidebar-title">👤 About Me</div>
+                    <div class="profile-header">
+                        <div class="profile-avatar"><inner>🦖</inner></div>
+                        <div class="profile-name">Emma</div>
+                    </div>
+                    <div class="profile-bio">記錄生活的點點滴滴。
+                    To live, to feel, to improve.
+                    歡迎隨時與我連繫！✨</div>
+
+                    <div class="profile-divider"></div>
+
+                    <div class="sidebar-title" style="font-size: 11px; margin-bottom: 6px;">📩 Contact</div>
+                    <a href="mailto:your_email@example.com" class="contact-item">
+                        <span>📧</span> celeste_588@outlook.com
+                    </a>
+                </div>
+            </div>
         </div>
-
-        <div class="sidebar">
-            <div class="sidebar-title">內容分類</div>
-            <button class="category-btn active" onclick="filterCategory(this, 'all')">👀 顯示全部</button>
-            <button class="category-btn" onclick="filterCategory(this, '讀書')">🏷️ 讀書</button>
-<button class="category-btn" onclick="filterCategory(this, '追星')">🏷️ 追星</button>
-
-        </div>
-
     </div>
 
     <script>
-        let currentMusicUrl = "";
+        const ENCRYPTED_HASH = "827d5449d1f191275051481e75c4ce10e930a64b5585a546363c340d63347089";
+        let currentPlayingIframe = null; 
 
-        // 分類篩選功能
+        function checkPassword() {
+            const userInput = document.getElementById('pass-input').value;
+            const overlay = document.getElementById('password-overlay');
+            const mainContent = document.getElementById('main-content');
+            const errorMsg = document.getElementById('error-msg');
+            const userInputHash = CryptoJS.SHA256(userInput).toString();
+
+            if (userInputHash === ENCRYPTED_HASH) {
+                overlay.style.display = 'none';
+                mainContent.style.display = 'flex';
+                initScrollObserver(); 
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('pass-input').value = "";
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        }
+
         function filterCategory(btn, targetCategory) {
-            // 切換按鈕的選取顏色 (active)
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
-            // 篩選貼文
             document.querySelectorAll('.post').forEach(post => {
                 if (targetCategory === 'all' || post.getAttribute('data-category') === targetCategory) {
                     post.style.display = 'block';
                 } else {
                     post.style.display = 'none';
+                    const iframe = post.querySelector('.bilibili-player');
+                    if (iframe) iframe.src = "";
+                    post.querySelectorAll('video').forEach(v => v.pause());
                 }
             });
         }
@@ -266,41 +271,71 @@
         function moveSlide(btn, direction) {
             const container = btn.parentElement;
             const wrapper = container.querySelector('.slide-wrapper');
-            const imgs = wrapper.querySelectorAll('.post-img');
+            const mediaItems = wrapper.children;
             let index = parseInt(container.getAttribute('data-index') || '0');
 
+            if(mediaItems[index].tagName === 'VIDEO') {
+                mediaItems[index].pause();
+            }
+
             index += direction;
-            if (index < 0) index = imgs.length - 1;
-            if (index >= imgs.length) index = 0;
+            if (index < 0) index = mediaItems.length - 1;
+            if (index >= mediaItems.length) index = 0;
 
             container.setAttribute('data-index', index);
-            wrapper.style.transform = `translateX(${-index * 100}%)`;
-        }
+            wrapper.style.transform = "translateX(" + (-index * 100) + "%)";
 
-        function expandText(btn, musicUrl) {
-            const parent = btn.parentElement;
-            parent.querySelector('.full-text').style.display = 'inline';
-            parent.querySelector('.short-text').style.display = 'none';
-            btn.style.display = 'none';
-            if (musicUrl) playMusic(musicUrl);
-        }
-
-        function toggleLike(element) {
-            element.innerText = element.innerText === "❤️" ? "🤍" : "❤️";
-        }
-
-        function playMusic(videoUrl) {
-            if(!videoUrl) return;
-            const player = document.getElementById('bilibili-player');
-            if (currentMusicUrl === videoUrl) {
-                player.src = "";
-                currentMusicUrl = "";
-                console.log("🎵 音樂已暫停");
-            } else {
-                player.src = videoUrl + "&autoplay=1";
-                currentMusicUrl = videoUrl;
-                console.log("🎵 開始播放新音樂");
+            const counter = container.querySelector('.badge-counter');
+            if (counter) {
+                counter.innerText = (index + 1) + "/" + mediaItems.length;
             }
+        }
+
+        function expandText(btn) {
+            const parent = btn.parentElement;
+            const fullTextSpan = parent.querySelector('.full-text');
+
+            fullTextSpan.innerHTML = "<br>" + fullTextSpan.innerHTML;
+            fullTextSpan.style.display = 'inline';
+            btn.style.display = 'none';
+
+            const postContainer = parent.closest('.post');
+            const iframe = postContainer.querySelector('.bilibili-player');
+
+            if (iframe) {
+                if (currentPlayingIframe && currentPlayingIframe !== iframe) {
+                    currentPlayingIframe.src = "";
+                }
+
+                const bvId = iframe.getAttribute('data-bv');
+                iframe.src = "https://player.bilibili.com/player.html?bvid=" + bvId + "&autoplay=1&muted=0&page=1&high_quality=1";
+
+                currentPlayingIframe = iframe;
+            }
+        }
+
+        function initScrollObserver() {
+            const observerOptions = {
+                root: null, 
+                threshold: 0.1 
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        const iframe = entry.target.querySelector('.bilibili-player');
+                        if (iframe && iframe.src !== "" && currentPlayingIframe === iframe) {
+                            iframe.src = "";
+                            currentPlayingIframe = null;
+                        }
+                        entry.target.querySelectorAll('video').forEach(v => v.pause());
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.post').forEach(post => {
+                observer.observe(post);
+            });
         }
     </script>
 </body>
