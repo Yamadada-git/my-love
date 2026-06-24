@@ -1,12 +1,37 @@
 {
     "site_password": "0509",
     "posts": [
+         {
+            "category": "Yamada",
+            "images": ["images/20250604.1.jpeg","images/20250604.2.jpg"],
+            "short_caption": "根本搶不到票",
+            "full_text": "當時正好出差即使搶到了票也去不了",
+            "bilibili_bv": "BV1kMQ6YHEiY",
+            "date": "2025/6/4 Wednesday"
+        },
         {
             "category": "Yamada",
-            "images": ["images/idol1.jpg"],
-            "short_caption": "🌟 今天的舞台太完美了！",
-            "full_text": "舞台應援長文...",
-            "date": "1天前"
+            "images": ["images/20260623.jpeg"],
+            "short_caption": "關於我為何在上周六凌晨開始決定用python建立個人網站?",
+            "full_text": "IG如果設為非公開,則只有追蹤者可以看到我的post,但涼介怎麼可能追蹤粉絲?所以我只好寫一個網站,我可以自由分享,而涼介也可以在無聊的時候來看看他的粉絲.這個愛夠沉重吧!",
+            "bilibili_bv": "BV1JMEw6nEey",
+            "date": "2026/6/23 Tuesday (是的,我正在慢慢把IG post搬過來)"
+        },
+        {
+            "category": "Life",
+            "images": ["images/20250518.1.jpg","images/20250518.2.jpg","images/20250518.3.jpg","images/20250518.4.jpg","images/20250518.5.jpg","images/20250518.6.jpg","images/20250518.7.jpg","images/20250518.8.jpg","images/20250518.9.jpg","images/20250518.10.jpg","images/20250518.11.jpg","images/20250518.12.jpg","images/20250518.13.jpg","images/20250518.14.jpg","images/20250518.15.jpg"],
+            "short_caption": "時間的確能療癒",
+            "full_text": "我還記得當時我在大半夜邊哭邊揉著麵包,只有通過分心才可以不去過度思考為何即使知道早晚會發生的事還是令人如此難以接受事實.",
+            "bilibili_bv": "",
+            "date": "2025/5/18 Sunday"
+        },
+        {
+            "category": "Yamada",
+            "images": ["images/20250506.1.jpg","images/20250506.2.jpg","images/20250506.3.jpeg"],
+            "short_caption": "收到了等待已久的包裹",
+            "full_text": "山田涼介だぷ！五月病はお断り！",
+            "bilibili_bv": "BV149Ev6ZEmK",
+            "date": "2025/5/6 Tuesday"
         },
         {
             "category": "Life",
